@@ -1,0 +1,15 @@
+EARTH ON FIRE — START HERE
+
+WINDOWS:
+1) Extract this ZIP.
+2) Install Python 3.10+ and check "Add Python to PATH".
+3) Double-click start_windows.bat (first run installs required libraries).
+4) Open http://127.0.0.1:8000 in Chrome / Edge.
+
+Mac/Linux:
+  bash start_linux_mac.sh
+  Open http://127.0.0.1:8000
+
+The NASA CSV and prebuilt database are bundled; you don't need to clean data again.
+GitHub auto-refresh requires internet and the server to be running.
+ARABIC instructions and full feature list: README_AR.md

@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EARTH ON FIRE | Forest Intelligence</title>
+<style>
+:root{
+ --forest:#173d2e;--forest2:#24563d;--leaf:#4f8060;--sage:#dce9dc;--sage2:#edf3e9;
+ --cream:#f5f3e9;--paper:#fffef9;--sand:#e8dfc9;--ink:#1e3027;--muted:#718176;
+ --line:#dce4d8;--orange:#e98243;--red:#c95842;--yellow:#d6a94f;--blue:#6e9fbd;
+ --shadow:0 12px 34px rgba(32,60,42,.08)
+}
+*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font:14px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Arial,sans-serif}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+.hidden{display:none!important}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #a9c9ae;outline-offset:2px}
+.auth{min-height:100vh;display:grid;grid-template-columns:minmax(300px,.9fr) minmax(400px,1.1fr);background:var(--cream)}
+.auth-side{background:linear-gradient(150deg,#143a2a,#2c6144);color:#f5f5e9;padding:54px clamp(25px,6vw,85px);display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.auth-side:after{content:"";position:absolute;width:460px;height:460px;border:1px solid #ffffff22;border-radius:50%;right:-170px;bottom:-150px;box-shadow:0 0 0 40px #ffffff08,0 0 0 90px #ffffff05}
+.brand{display:flex;align-items:center;gap:12px;font-weight:850;letter-spacing:1.6px}
+.brand-mark{width:43px;height:43px;border-radius:14px;background:var(--orange);color:#fff;display:grid;place-items:center;font-size:23px}
+.brand small{display:block;font-size:9px;letter-spacing:2.5px;color:#d4e2d5;font-weight:600}
+.auth-copy{max-width:500px;position:relative;z-index:1}
+.auth-copy h1{font-size:clamp(34px,4vw,55px);line-height:1.06;letter-spacing:-1.8px;margin:0 0 18px}
+.auth-copy p{color:#d6e5d7;font-size:15px;max-width:440px}
+.auth-art{margin-top:34px;border:1px solid #ffffff26;border-radius:24px;background:#ffffff0b;padding:15px}
+.auth-art svg{width:100%;height:190px}
+.auth-foot{font-size:11px;color:#c5d7c7;position:relative;z-index:1}
+.auth-main{display:flex;align-items:center;justify-content:center;padding:36px 24px}
+.auth-box{width:min(100%,510px);background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:clamp(22px,4vw,38px);box-shadow:var(--shadow)}
+.auth-box h2{font-size:25px;margin:0 0 6px}.sub{color:var(--muted);margin:0 0 22px;font-size:13px}
+.tabs{display:flex;gap:5px;padding:4px;background:var(--sage2);border-radius:12px;margin:20px 0}
+.tabs button{flex:1;border:0;background:transparent;padding:10px;border-radius:9px;color:var(--muted);font-weight:700;font-size:12px}
+.tabs button.active{background:#fff;color:var(--forest);box-shadow:0 2px 8px #173d2e12}
+.field{display:grid;gap:6px;margin:12px 0}.field label{font-size:11px;font-weight:750;color:#526458}
+.field input,.field select,.field textarea{width:100%;border:1px solid #d6dfd4;background:#fffefb;border-radius:10px;padding:11px 12px;color:var(--ink);min-width:0}
+.field input[type=file]{font-size:11px;padding:9px}.field textarea{min-height:75px;resize:vertical}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{border:1px solid var(--line);border-radius:10px;padding:10px 14px;background:#fff;color:var(--forest);font-weight:750;font-size:12px}
+.btn:hover{filter:brightness(.97);border-color:#9eb9a2}.btn.primary{background:var(--forest);border-color:var(--forest);color:#fff}.btn.orange{background:var(--orange);border-color:var(--orange);color:#fff}.btn.soft{background:var(--sage2);border-color:var(--sage);color:var(--forest)}
+.btn.full{width:100%;padding:12px}.linkbtn{border:0;background:transparent;color:var(--leaf);font-size:12px;font-weight:750}
+.note{padding:11px 13px;border-radius:11px;background:#f7f1df;border:1px solid #e9dfbd;color:#80632d;font-size:11px;margin:13px 0}
+.note.green{background:#edf5ed;border-color:#d4e5d4;color:#3d684b}
+.app{min-height:100vh;display:grid;grid-template-columns:244px 1fr}
+.sidebar{background:var(--forest);color:#f4f6ed;padding:22px 15px;display:flex;flex-direction:column;gap:24px}
+.sidebar .brand{padding:0 8px;font-size:13px}.sidebar .brand-mark{width:36px;height:36px;border-radius:11px}
+.nav-title{font-size:9px;letter-spacing:1.7px;color:#a9c0aa;padding:0 12px;margin:0 0 7px;text-transform:uppercase}
+.nav{display:grid;gap:4px}.nav button{display:flex;align-items:center;gap:11px;width:100%;text-align:left;border:0;background:transparent;color:#d5e2d4;padding:11px 12px;border-radius:10px;font-size:12px}
+.nav button:hover,.nav button.active{background:#ffffff17;color:#fff}.nav button.active{box-shadow:inset 3px 0 var(--orange)}
+.nav .ic{width:18px;text-align:center;font-size:16px}
+.side-bottom{margin-top:auto;border:1px solid #ffffff25;background:#ffffff0c;border-radius:13px;padding:13px}
+.side-bottom p{color:#c4d5c4;font-size:10px;margin:6px 0 11px}
+.main{min-width:0;padding:22px clamp(15px,2.6vw,34px) 42px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:25px}
+.crumb{font-size:11px;color:var(--muted)}.topright{display:flex;align-items:center;gap:10px}
+.chip{font-size:10px;border-radius:30px;background:var(--sage2);color:var(--forest2);padding:7px 10px;border:1px solid var(--sage)}
+.avatar{width:34px;height:34px;border-radius:50%;background:#d9e7d8;color:var(--forest);display:grid;place-items:center;font-weight:800}
+.page{display:none}.page.active{display:block}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:18px}
+h1{font-size:26px;line-height:1.2;margin:0 0 6px;letter-spacing:-.6px}h2{font-size:16px;margin:0}h3{font-size:13px;margin:0}
+.muted{color:var(--muted)}.small{font-size:10px}.desc{font-size:12px;color:var(--muted);margin:4px 0 0}
+.grid{display:grid;gap:13px}.stats{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:14px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:15px;padding:15px;box-shadow:var(--shadow);min-width:0}
+.stat-label{display:flex;justify-content:space-between;color:var(--muted);font-size:10px}.stat-value{font-size:25px;font-weight:850;margin:8px 0 1px;color:var(--forest)}
+.stat-foot{font-size:10px;color:var(--muted)}
+.layout-main{grid-template-columns:minmax(0,1.5fr) minmax(270px,.82fr)}
+.card-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
+.card-head p{font-size:10px;color:var(--muted);margin:3px 0 0}
+.map{position:relative;min-height:330px;border-radius:12px;overflow:hidden;background-color:#e7eee2;background-image:linear-gradient(#d0ddce66 1px,transparent 1px),linear-gradient(90deg,#d0ddce66 1px,transparent 1px);background-size:34px 34px;border:1px solid #d3dfd1}
+.map svg{width:100%;height:330px;display:block}
+.map .land{fill:#9db99a;stroke:#6e9574;stroke-width:1.6}
+.map .water{fill:#e5eee7}
+.hotspot{cursor:pointer;stroke:#fff8e8;stroke-width:2;filter:drop-shadow(0 2px 3px #5a604b55)}
+.hotspot:hover{stroke:#203e2b;stroke-width:3}
+.map-controls{position:absolute;top:10px;left:10px;display:flex;gap:6px;flex-wrap:wrap}
+.map-controls select,.map-controls button{background:#fffef5eF;border:1px solid #cddbc9;border-radius:8px;padding:7px 9px;font-size:10px;color:var(--forest);font-weight:700}
+.map-stamp{position:absolute;bottom:9px;right:10px;background:#fffef0dd;border:1px solid #d6dfd2;border-radius:7px;padding:5px 8px;font-size:9px;color:#63766a}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:10px;color:var(--muted);margin-top:9px}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}
+.weather-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:13px 0}
+.weather{background:var(--sage2);border:1px solid var(--sage);border-radius:11px;padding:11px}
+.weather small{font-size:9px;color:var(--muted)}.weather strong{display:block;font-size:19px;color:var(--forest);margin-top:3px}
+.warning{border:1px solid #efd4a9;background:#fbf3e4;color:#815627;border-radius:12px;padding:12px;margin-top:13px}
+.warning strong{font-size:12px}.warning p{font-size:10px;margin:4px 0 0}
+.safe{border:1px solid #d4e4d2;background:#eff6ec;border-radius:12px;padding:12px;margin-top:9px}
+.safe strong{font-size:11px;color:#356347}.safe p{font-size:10px;color:#607567;margin:4px 0 0}
+.badge{display:inline-block;border-radius:20px;padding:4px 8px;font-size:9px;font-weight:800;background:#e6efe4;color:#42694a}
+.badge.orange{background:#fff0df;color:#a65c27}.badge.red{background:#f9e6df;color:#a44634}.badge.yellow{background:#f7f0d9;color:#876a2c}.badge.blue{background:#e7f0f5;color:#4e7890}
+.section{display:flex;justify-content:space-between;align-items:center;margin:22px 0 11px}
+.tablewrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:560px}th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);font-size:10px}th{font-size:9px;color:var(--muted);letter-spacing:.5px}td{color:#34483b}
+.calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.dayname{text-align:center;color:var(--muted);font-size:9px;padding:4px}
+.day{min-height:57px;border-radius:9px;border:1px solid #e0e5d8;background:#f2f4eb;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:10px;color:#45594a;cursor:pointer}
+.day:hover,.day.selected{outline:2px solid var(--forest);outline-offset:1px}
+.day.l1{background:#e5eddf}.day.l2{background:#d6dfbf}.day.l3{background:#edce8f}.day.l4{background:#e99a61;color:#fff}.day.l5{background:#c95f45;color:#fff}
+.day.blank{background:transparent;border-color:transparent;cursor:default}
+.day em{font-size:8px;font-style:normal;opacity:.85}
+.sensor-grid{grid-template-columns:1fr 1fr}
+.sensor{border:1px solid var(--line);border-radius:12px;padding:14px;background:#fbfcf7}
+.sensor.modis{border-top:4px solid var(--orange)}.sensor.viirs{border-top:4px solid var(--blue)}
+.sensor .big{font-size:25px;font-weight:850;margin:8px 0 2px}
+.comparebar{height:9px;border-radius:10px;background:#e7ece2;overflow:hidden;margin:8px 0}.comparebar span{display:block;height:100%;border-radius:10px}
+.profile-list{display:grid;gap:0}.profile-list div{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:10px}
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0}
+.cat{display:flex;gap:7px;align-items:center;border:1px solid var(--line);background:#fffefb;padding:9px;border-radius:9px;font-size:10px}
+.cat input{accent-color:var(--forest)}
+.plan-grid{grid-template-columns:repeat(3,1fr)}
+.plan{position:relative}.plan.featured{border:2px solid var(--leaf)}.price{font-size:24px;font-weight:850;color:var(--forest);margin:10px 0 2px}
+.plan ul{padding-left:17px;font-size:10px;color:var(--muted);line-height:2.1}
+.toast{position:fixed;right:20px;bottom:20px;background:var(--forest);color:white;border-radius:10px;padding:12px 15px;font-size:11px;box-shadow:var(--shadow);display:none;z-index:20}
+.modalbg{position:fixed;inset:0;background:#10231977;display:none;align-items:center;justify-content:center;padding:18px;z-index:15}.modalbg.show{display:flex}.modal{background:var(--paper);border-radius:17px;padding:20px;max-width:460px;width:100%;box-shadow:var(--shadow)}
+.modal p{font-size:11px;color:var(--muted)}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
+footer{text-align:center;color:#8a998b;font-size:9px;margin-top:24px}
+@media(max-width:1000px){.app{grid-template-columns:1fr}.sidebar{padding:12px;gap:12px}.sidebar .brand{display:none}.nav{display:flex;overflow:auto}.nav-title,.side-bottom{display:none}.nav button{white-space:nowrap;width:auto}.main{padding:17px}.layout-main{grid-template-columns:1fr}}
+@media(max-width:650px){.auth{grid-template-columns:1fr}.auth-side{padding:25px;min-height:330px}.auth-copy h1{font-size:34px}.auth-art{display:none}.auth-foot{margin-top:24px}.stats{grid-template-columns:1fr 1fr}.head{align-items:flex-start;flex-direction:column}.row2,.formgrid,.sensor-grid,.plan-grid{grid-template-columns:1fr}.cat-grid{grid-template-columns:1fr 1fr}.day{min-height:43px}.topbar{align-items:flex-start}}
+</style>
+</head>
+<body>
+
+<!-- AUTHENTICATION / ACCOUNT TYPE -->
+<section id="auth" class="auth">
+ <div class="auth-side">
+  <div class="brand"><div class="brand-mark">♨</div><div>EARTH ON FIRE<small>FOREST INTELLIGENCE</small></div></div>
+  <div class="auth-copy">
+   <h1>Protect forests.<br>Understand risk.<br>Secure resources.</h1>
+   <p>Satellite-informed wildfire awareness and forest intelligence for people and businesses in Egypt.</p>
+   <div class="auth-art">
+    <svg viewBox="0 0 500 190" aria-label="Stylized sustainable forest illustration">
+     <path d="M0 150 Q100 100 190 150 T380 135 T500 150 V190 H0Z" fill="#a8c69e" opacity=".45"/>
+     <path d="M0 170 Q120 125 240 168 T500 160 V190 H0Z" fill="#6f9c75" opacity=".65"/>
+     <g fill="#c5d8b7"><path d="M68 136l26-75 27 75h-16v27H84v-27z"/><path d="M150 147l31-94 33 94h-20v24h-24v-24z"/><path d="M290 140l28-84 29 84h-17v28h-23v-28z"/><path d="M380 150l25-72 27 72h-16v23h-20v-23z"/></g>
+     <g fill="#e98b50"><circle cx="250" cy="54" r="4"/><circle cx="265" cy="39" r="3"/><circle cx="238" cy="31" r="2.5"/></g>
+     <path d="M245 95q-30-25-4-50q-7 22 11 25q19-28 18-45q23 32 5 56q-8 10-30 14z" fill="#e98243" opacity=".8"/>
+    </svg>
+   </div>
+  </div>
+  <div class="auth-foot">A prototype concept · Egypt-first business platform · Africa expansion roadmap</div>
+ </div>
+ <div class="auth-main">
+  <div class="auth-box">
+   <div id="loginPanel">
+    <h2>Welcome back</h2><p class="sub">Sign in to your EARTH ON FIRE workspace.</p>
+    <div class="field"><label>Email address</label><input id="loginEmail" type="email" placeholder="you@company.com"></div>
+    <div class="field"><label>Password</label><input id="loginPassword" type="password" placeholder="Enter your password"></div>
+    <button class="btn primary full" onclick="demoLogin('individual')">Continue as individual demo</button>
+    <button class="btn soft full" style="margin-top:8px" onclick="demoLogin('company')">Continue as company demo</button>
+    <p class="small muted" style="text-align:center;margin:16px 0 0">New here? <button class="linkbtn" onclick="showRegister()">Create an account</button></p>
+    <div class="note">Demo access only. Real authentication and secure account storage are not connected in this prototype.</div>
+   </div>
+   <div id="registerPanel" class="hidden">
+    <h2>Create your account</h2><p class="sub">Choose how you want to use EARTH ON FIRE.</p>
+    <div class="tabs"><button id="tabIndividual" class="active" onclick="setAccountType('individual')">Individual</button><button id="tabCompany" onclick="setAccountType('company')">Company / Institution</button></div>
+    <div id="individualForm">
+     <div class="field"><label>Full name</label><input id="indName" placeholder="Your full name"></div>
+     <div class="field"><label>Email</label><input id="indEmail" type="email" placeholder="name@email.com"></div>
+     <div class="field"><label>Password</label><input id="indPass" type="password" placeholder="Create a password"></div>
+     <div class="field"><label>City in Egypt</label><input id="indCity" placeholder="e.g. Cairo"></div>
+     <button class="btn primary full" onclick="createIndividual()">Create individual account</button>
+     <p class="small muted" style="text-align:center">Individuals get the public safety dashboard for free.</p>
+    </div>
+    <div id="companyForm" class="hidden">
+     <div class="note">Company accounts are currently for Egypt-registered businesses. African expansion is planned for a later phase.</div>
+     <div class="formgrid">
+      <div class="field"><label>Legal company name *</label><input id="coName" placeholder="Registered name"></div>
+      <div class="field"><label>Contact person *</label><input id="coContact" placeholder="Full name"></div>
+      <div class="field"><label>Business email *</label><input id="coEmail" type="email" placeholder="name@company.com"></div>
+      <div class="field"><label>Phone *</label><input id="coPhone" placeholder="+20"></div>
+      <div class="field"><label>Governorate *</label><input id="coGov" placeholder="e.g. Damietta"></div>
+      <div class="field"><label>Website (optional)</label><input id="coWeb" placeholder="https://"></div>
+     </div>
+     <div class="field"><label>Business categories — choose all that apply *</label>
+      <div class="cat-grid">
+       <label class="cat"><input type="checkbox" name="cat" value="Furniture"> Furniture</label>
+       <label class="cat"><input type="checkbox" name="cat" value="Timber / Wood"> Timber / Wood</label>
+       <label class="cat"><input type="checkbox" name="cat" value="Wood export"> Wood export</label>
+       <label class="cat"><input type="checkbox" name="cat" value="Charcoal"> Charcoal</label>
+       <label class="cat"><input type="checkbox" name="cat" value="Forestry"> Forestry</label>
+       <label class="cat"><input type="checkbox" name="cat" value="Other"> Other</label>
+      </div>
+      <input id="coOther" placeholder="If Other, describe your business" style="margin-top:5px">
+     </div>
+     <div class="field"><label>Where do you source / operate? *</label><input id="coAreas" placeholder="e.g. Ghana, Cameroon, Côte d’Ivoire"></div>
+     <div class="field"><label>Commercial register *</label><input id="coReg" type="file" accept=".pdf,.png,.jpg,.jpeg"></div>
+     <div class="field"><label>Tax card *</label><input id="coTax" type="file" accept=".pdf,.png,.jpg,.jpeg"></div>
+     <div class="field"><label>Company activity / additional details</label><textarea id="coDetails" placeholder="Tell us about your operations and the forest areas you want to monitor."></textarea></div>
+     <button class="btn primary full" onclick="submitCompany()">Submit company for verification</button>
+     <p class="small muted">Documents are requested for verification. This demo does not upload or securely store files.</p>
+    </div>
+    <p class="small muted" style="text-align:center;margin:14px 0 0">Already registered? <button class="linkbtn" onclick="showLogin()">Sign in</button></p>
+   </div>
+   <div id="pendingPanel" class="hidden">
+    <div style="font-size:35px">🕊️</div><h2>Application submitted</h2>
+    <p class="sub">Your company profile is now marked as pending verification in this demo.</p>
+    <div class="note green"><b>Status: Pending review</b><br>A real service would verify the commercial register, tax card, company identity and submitted business information before activating paid access.</div>
+    <button class="btn primary full" onclick="demoLogin('company')">Preview company dashboard</button>
+    <button class="linkbtn" style="width:100%;margin-top:10px" onclick="showLogin()">Back to sign in</button>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- MAIN APP -->
+<section id="app" class="app hidden">
+ <aside class="sidebar">
+  <div class="brand"><div class="brand-mark">♨</div><div>EARTH ON FIRE<small>FOREST INTELLIGENCE</small></div></div>
+  <div><div class="nav-title">Workspace</div><nav class="nav" id="navigation"></nav></div>
+  <div class="side-bottom"><b id="sideName">Demo account</b><p id="sideType">Individual access</p><button class="btn" style="width:100%;font-size:10px" onclick="logout()">Sign out</button></div>
+ </aside>
+ <main class="main">
+  <div class="topbar"><div class="crumb">Workspace / <span id="crumb">Overview</span></div><div class="topright"><span class="chip" id="accountChip">INDIVIDUAL · FREE</span><div class="avatar" id="avatar">U</div></div></div>
+
+  <!-- INDIVIDUAL DASHBOARD -->
+  <section class="page active" id="individualHome">
+   <div class="head"><div><h1>Your local safety view</h1><p class="desc">Check environmental conditions and nearby fire observations.</p></div><span class="badge">Public safety view</span></div>
+   <div class="grid layout-main">
+    <div class="card">
+     <div class="card-head"><div><h2>Forest & hotspot map</h2><p>Choose a country or select a sample marker.</p></div><span class="badge">Africa overview</span></div>
+     <div class="map" id="userMap"></div>
+     <div class="legend"><span><i class="dot" style="background:#c95f45"></i>High-risk area</span><span><i class="dot" style="background:#e6a45e"></i>Watch area</span><span><i class="dot" style="background:#75a77b"></i>Lower-risk area</span><span><i class="dot" style="background:#6e9fbd"></i>Satellite observation</span></div>
+    </div>
+    <div class="card">
+     <div class="card-head"><div><h2>Local conditions</h2><p id="userLocationLabel">Selected demo area · Ghana</p></div><span class="badge yellow">Sample weather</span></div>
+     <div class="weather-grid">
+      <div class="weather"><small>Temperature</small><strong id="uTemp">32°C</strong></div>
+      <div class="weather"><small>Humidity</small><strong id="uHum">38%</strong></div>
+      <div class="weather"><small>Rainfall</small><strong id="uRain">0 mm</strong></div>
+      <div class="weather"><small>Wind</small><strong id="uWind">18 km/h</strong></div>
+     </div>
+     <div class="warning"><strong>⚠ Nearby risk notice</strong><p id="userWarning">A sample high-risk zone is shown in this area. This is not a live emergency alert.</p></div>
+     <div class="safe"><strong>What should you do?</strong><p>Keep away from smoke and active fire areas. Do not cross fire lines. Follow local Civil Protection instructions and use official emergency channels.</p></div>
+     <p class="small muted" style="margin:10px 0 0">Weather values are illustrative placeholders, not a live forecast.</p>
+    </div>
+   </div>
+   <div class="section"><h2>Recent observations</h2><button class="btn soft" onclick="navigate('challenge')">Open NASA challenge view →</button></div>
+   <div class="card tablewrap"><table><thead><tr><th>Observation</th><th>Sensor</th><th>Area</th><th>Confidence</th><th>Type</th></tr></thead><tbody id="userObservations"></tbody></table></div>
+  </section>
+
+  <!-- COMPANY DASHBOARD -->
+  <section class="page" id="companyHome">
+   <div class="head"><div><h1>Company intelligence dashboard</h1><p class="desc">Monitor forest exposure and operational risk around your sourcing footprint.</p></div><span class="badge" id="verificationBadge">VERIFIED DEMO</span></div>
+   <div class="grid stats">
+    <div class="card"><div class="stat-label">Monitored sourcing areas <span>⌖</span></div><div class="stat-value" id="cAreas">4</div><div class="stat-foot">Example locations across Africa</div></div>
+    <div class="card"><div class="stat-label">High-risk zones <span>⚠</span></div><div class="stat-value">2</div><div class="stat-foot">Illustrative risk classification</div></div>
+    <div class="card"><div class="stat-label">Thermal observations <span>♨</span></div><div class="stat-value">18</div><div class="stat-foot">Sample records only</div></div>
+    <div class="card"><div class="stat-label">Supplier areas <span>▤</span></div><div class="stat-value" id="cSuppliers">3</div><div class="stat-foot">Registered in demo workspace</div></div>
+   </div>
+   <div class="grid layout-main">
+    <div class="card"><div class="card-head"><div><h2>Operational heat map</h2><p>Explore risk around your sourcing areas.</p></div><span class="badge">Company view</span></div><div class="map" id="companyMap"></div>
+     <div class="legend"><span><i class="dot" style="background:#c95f45"></i>High risk</span><span><i class="dot" style="background:#e6a45e"></i>Moderate</span><span><i class="dot" style="background:#75a77b"></i>Lower risk</span><span><i class="dot" style="background:#6e9fbd"></i>VIIRS / MODIS observation</span></div>
+    </div>
+    <div class="card"><div class="card-head"><div><h2>Selected area intelligence</h2><p id="companyAreaName">Ghana · Sourcing Zone A</p></div><span class="badge red" id="companyRiskBadge">Elevated</span></div>
+     <div class="stat-label">Illustrative environmental risk indicator</div><div class="stat-value" id="companyRisk">72 / 100</div>
+     <div class="comparebar"><span id="companyRiskBar" style="width:72%;background:var(--orange)"></span></div>
+     <div class="profile-list">
+      <div><span>Thermal activity</span><b id="cThermal">Elevated</b></div>
+      <div><span>Fire radiative power</span><b id="cFrp">22.1 MW · sample</b></div>
+      <div><span>Vegetation dryness</span><b id="cDry">High · sample</b></div>
+      <div><span>Wind conditions</span><b id="cWind">Moderate · sample</b></div>
+      <div><span>Data confidence</span><b>Not validated</b></div>
+     </div>
+     <div class="note">Risk indicator is a prototype placeholder, not a scientifically validated fire probability or prediction.</div>
+    </div>
+   </div>
+   <div class="section"><h2>Business alerts</h2><button class="btn soft" onclick="navigate('suppliers')">Manage sourcing areas →</button></div>
+   <div class="grid" style="grid-template-columns:repeat(3,1fr)">
+    <div class="card"><span class="badge red">High priority</span><h3 style="margin-top:9px">Thermal activity detected</h3><p class="desc">Sample observation near a monitored supplier area.</p></div>
+    <div class="card"><span class="badge yellow">Watch</span><h3 style="margin-top:9px">Dry vegetation conditions</h3><p class="desc">Review seasonal conditions and local prevention guidance.</p></div>
+    <div class="card"><span class="badge blue">Supply chain</span><h3 style="margin-top:9px">Supplier review required</h3><p class="desc">Confirm sourcing coordinates and documentation.</p></div>
+   </div>
+  </section>
+
+  <!-- NASA CHALLENGE SHARED -->
+  <section class="page" id="challenge">
+   <div class="head"><div><h1>NASA Challenge Explorer</h1><p class="desc">Explore the sample observations, activity calendar and sensor comparison.</p></div><span class="badge orange">MODIS + VIIRS</span></div>
+   <div class="card">
+    <div class="card-head"><div><h2>Hotspot explorer</h2><p>Click a marker to inspect a sample observation.</p></div><select id="challengeCountry" onchange="changeArea(this.value)"><option>All Africa</option><option>Ghana</option><option>Côte d’Ivoire</option><option>Cameroon</option></select></div>
+    <div class="map" id="challengeMap"></div>
+    <div class="legend"><span><i class="dot" style="background:#e98243"></i>MODIS observation</span><span><i class="dot" style="background:#6e9fbd"></i>VIIRS observation</span><span><i class="dot" style="background:#fff;border:1px solid #718176"></i>Example user location</span></div>
+    <div class="note green" id="markerInfo">Explore the points. Click a marker to view its sample timestamp, source and illustrative details.</div>
+   </div>
+   <div class="grid layout-main" style="margin-top:14px">
+    <div class="card"><div class="card-head"><div><h2>Burning activity calendar</h2><p>Illustrative daily activity levels · November 2026</p></div><div><button class="btn" onclick="changeMonth(-1)">←</button> <button class="btn" onclick="changeMonth(1)">→</button></div></div>
+     <div class="calendar" id="calendar"></div><div class="legend"><span>Lower activity</span><i class="dot" style="background:#e5eddf"></i><i class="dot" style="background:#d6dfbf"></i><i class="dot" style="background:#edce8f"></i><i class="dot" style="background:#e99a61"></i><i class="dot" style="background:#c95f45"></i><span>Higher activity</span></div>
+     <div class="note" id="calendarInfo">Select a day to inspect its sample activity level.</div>
+    </div>
+    <div class="card"><div class="card-head"><div><h2>Satellite comparison</h2><p>Same region · illustrative comparison</p></div><span class="badge">Sensor view</span></div>
+     <div class="grid sensor-grid">
+      <div class="sensor modis"><b>MODIS</b><div class="big">1 km</div><div class="small muted">Approximate nominal active-fire pixel size</div><div class="comparebar"><span style="width:62%;background:var(--orange)"></span></div><div class="small muted">Broader coverage · coarser detail</div></div>
+      <div class="sensor viirs"><b>VIIRS</b><div class="big">375 m</div><div class="small muted">Approximate nominal active-fire pixel size</div><div class="comparebar"><span style="width:88%;background:var(--blue)"></span></div><div class="small muted">Finer detail · more spatial precision</div></div>
+     </div>
+     <p class="small muted" style="margin:12px 0 0">Sensor detections can differ because of resolution, overpass time, cloud cover and detection conditions. A detection is not automatically a confirmed wildfire.</p>
+    </div>
+   </div>
+   <div class="section"><h2>Observation records</h2><select id="sensorFilter" onchange="renderObservations()"><option value="all">Both sensors</option><option value="MODIS">MODIS only</option><option value="VIIRS">VIIRS only</option></select></div>
+   <div class="card tablewrap"><table><thead><tr><th>Sensor</th><th>Demo timestamp (UTC)</th><th>Latitude</th><th>Longitude</th><th>Confidence</th><th>FRP (MW)</th><th>Record</th></tr></thead><tbody id="obsTable"></tbody></table></div>
+  </section>
+
+  <!-- COMPANY SUPPLIERS -->
+  <section class="page" id="suppliers">
+   <div class="head"><div><h1>Suppliers & sourcing areas</h1><p class="desc">Keep supplier records, source regions and monitoring areas in one place.</p></div><button class="btn primary" onclick="openSupplierModal()">＋ Add supplier</button></div>
+   <div class="card tablewrap"><div class="card-head"><div><h2>Supplier register</h2><p>Sample records — enter verified business information in the live system.</p></div><input id="supplierSearch" placeholder="Search..." oninput="filterSuppliers()" style="border:1px solid var(--line);padding:8px;border-radius:8px"></div>
+    <table><thead><tr><th>Supplier / area</th><th>Country</th><th>Material</th><th>Risk exposure</th><th>Verification</th></tr></thead><tbody id="supplierRows">
+     <tr><td>Forest Source A</td><td>Ghana</td><td>Hardwood</td><td><span class="badge red">Elevated</span></td><td>Unverified</td></tr>
+     <tr><td>Timber Partner B</td><td>Côte d’Ivoire</td><td>Hardwood</td><td><span class="badge yellow">Moderate</span></td><td>Unverified</td></tr>
+     <tr><td>Wood Supply C</td><td>Cameroon</td><td>Mixed timber</td><td><span class="badge red">Elevated</span></td><td>Unverified</td></tr>
+    </tbody></table>
+   </div>
+   <div class="note">A supplier's location and legal source must be verified. Satellite imagery alone does not establish land ownership, harvesting rights or timber legality.</div>
+  </section>
+
+  <!-- COMPANY BILLING -->
+  <section class="page" id="billing">
+   <div class="head"><div><h1>Plans & payments</h1><p class="desc">B2B subscriptions for companies registered in Egypt.</p></div><span class="badge">Company only</span></div>
+   <div class="note green"><b>7-day free trial:</b> starts after company verification and activation. Payment is not collected during the trial.</div>
+   <div class="grid plan-grid">
+    <div class="card plan"><span class="badge">STARTER</span><div class="price">Custom quote</div><p class="small muted">For one sourcing area</p><ul><li>One monitored sourcing area</li><li>Hotspot alerts</li><li>Monthly summary report</li></ul><button class="btn full" onclick="requestPlan('Starter')">Request plan</button></div>
+    <div class="card plan featured"><span class="badge orange">RECOMMENDED</span><div class="price">Custom quote</div><p class="small muted">For growing manufacturers and importers</p><ul><li>Multiple sourcing areas</li><li>Detailed risk indicators</li><li>MODIS / VIIRS comparison</li><li>Supplier exposure dashboard</li></ul><button class="btn primary full" onclick="requestPlan('Professional')">Start 7-day trial</button></div>
+    <div class="card plan"><span class="badge">ENTERPRISE</span><div class="price">Contact sales</div><p class="small muted">For multi-site organizations</p><ul><li>Custom monitoring coverage</li><li>Team access</li><li>API and tailored reporting</li></ul><button class="btn full" onclick="requestPlan('Enterprise')">Contact sales</button></div>
+   </div>
+   <div class="grid layout-main" style="margin-top:14px">
+    <div class="card"><h2>Payment methods</h2><div class="profile-list">
+     <div><span>Bank transfer against invoice</span><b>Available for pilot</b></div>
+     <div><span>Electronic payment link</span><b>Gateway integration planned</b></div>
+     <div><span>Recurring card payment</span><b>Later phase</b></div>
+     <div><span>Annual subscription discount</span><b>To be finalized</b></div>
+    </div><div class="note">The live product should confirm payment through a verified gateway webhook or an authorized finance-admin review — never from a screenshot uploaded by the customer.</div></div>
+    <div class="card"><h2>Billing workflow</h2><div class="profile-list">
+     <div><span>1. Company verification</span><b>Required</b></div>
+     <div><span>2. 7-day trial</span><b>Free</b></div>
+     <div><span>3. Select plan</span><b>Monthly / annual</b></div>
+     <div><span>4. Invoice issued</span><b>EGP</b></div>
+     <div><span>5. Payment confirmation</span><b>Activate subscription</b></div>
+    </div></div>
+   </div>
+  </section>
+
+  <!-- COMPANY PROFILE -->
+  <section class="page" id="profile">
+   <div class="head"><div><h1>Company profile & verification</h1><p class="desc">Manage company identity, business category and verification status.</p></div><span class="badge yellow" id="profileStatus">Demo verified</span></div>
+   <div class="grid layout-main">
+    <div class="card"><h2>Company information</h2><div class="profile-list" style="margin-top:10px">
+     <div><span>Legal name</span><b id="profileName">Earth on Fire Demo Ltd.</b></div>
+     <div><span>Country of registration</span><b>Egypt</b></div>
+     <div><span>Business categories</span><b id="profileCats">Furniture · Timber</b></div>
+     <div><span>Operating regions</span><b>Ghana · Cameroon</b></div>
+     <div><span>Verification status</span><b id="profileVerify">Approved demo account</b></div>
+    </div></div>
+    <div class="card"><h2>Documents checklist</h2><div class="profile-list" style="margin-top:10px">
+     <div><span>Commercial register</span><b><span class="badge green">Demo on file</span></b></div>
+     <div><span>Tax card</span><b><span class="badge green">Demo on file</span></b></div>
+     <div><span>Authorized contact</span><b><span class="badge green">Demo on file</span></b></div>
+     <div><span>Supplier / sourcing details</span><b><span class="badge yellow">Review separately</span></b></div>
+    </div><p class="small muted">The demo account uses fictional information. A production service needs encrypted document storage, access controls, retention rules and a human verification workflow.</p></div>
+   </div>
+  </section>
+
+  <footer>EARTH ON FIRE · Interactive front-end prototype · Synthetic observations and weather values · Not an emergency-response service.</footer>
+ </main>
+</section>
+
+<div class="modalbg" id="supplierModal"><div class="modal"><h2>Add supplier / sourcing area</h2><p>Demo only — this adds a row to the local prototype table.</p>
+ <div class="field"><label>Supplier or area name</label><input id="sName" placeholder="Supplier name"></div>
+ <div class="field"><label>Country</label><select id="sCountry"><option>Ghana</option><option>Côte d’Ivoire</option><option>Cameroon</option><option>Other African country</option></select></div>
+ <div class="field"><label>Material category</label><select id="sMaterial"><option>Hardwood</option><option>Softwood</option><option>Charcoal</option><option>Mixed timber</option><option>Other</option></select></div>
+ <div class="modal-actions"><button class="btn" onclick="closeSupplierModal()">Cancel</button><button class="btn primary" onclick="addSupplier()">Add supplier</button></div>
+</div></div>
+<div id="toast" class="toast"></div>
+
+<script>
+const obs=[
+ {sensor:'MODIS',time:'2026-11-12 09:25',lat:'7.80',lon:'-1.24',conf:'High',frp:'18.4',country:'Ghana'},
+ {sensor:'VIIRS',time:'2026-11-12 09:31',lat:'7.92',lon:'-1.18',conf:'High',frp:'22.1',country:'Ghana'},
+ {sensor:'VIIRS',time:'2026-11-11 12:02',lat:'5.32',lon:'-4.01',conf:'Nominal',frp:'8.6',country:'Côte d’Ivoire'},
+ {sensor:'MODIS',time:'2026-11-11 11:49',lat:'5.40',lon:'-3.92',conf:'Nominal',frp:'11.2',country:'Côte d’Ivoire'},
+ {sensor:'VIIRS',time:'2026-11-10 09:18',lat:'4.10',lon:'9.70',conf:'High',frp:'14.7',country:'Cameroon'},
+ {sensor:'VIIRS',time:'2026-11-09 12:50',lat:'3.90',lon:'10.20',conf:'Low',frp:'4.2',country:'Cameroon'},
+ {sensor:'MODIS',time:'2026-11-08 13:12',lat:'8.40',lon:'-2.10',conf:'Nominal',frp:'9.3',country:'Ghana'},
+ {sensor:'VIIRS',time:'2026-11-07 08:44',lat:'6.10',lon:'-5.40',conf:'High',frp:'16.1',country:'Côte d’Ivoire'},
+ {sensor:'MODIS',time:'2026-11-06 10:20',lat:'2.40',lon:'11.80',conf:'High',frp:'19.8',country:'Cameroon'}
+];
+const areas={
+ 'Ghana':{risk:72,temp:32,hum:38,rain:0,wind:18,thermal:'Elevated',frp:'22.1 MW · sample',dry:'High · sample',windLabel:'Moderate · sample',desc:'Ghana · Sourcing Zone A'},
+ 'Côte d’Ivoire':{risk:54,temp:30,hum:52,rain:1.2,wind:12,thermal:'Moderate',frp:'11.2 MW · sample',dry:'Moderate · sample',windLabel:'Low · sample',desc:'Côte d’Ivoire · Sourcing Zone B'},
+ 'Cameroon':{risk:68,temp:31,hum:43,rain:0.4,wind:21,thermal:'Elevated',frp:'14.7 MW · sample',dry:'Moderate · sample',windLabel:'High · sample',desc:'Cameroon · Sourcing Zone C'}
+};
+let accountType='individual',currentType='individual',currentArea='Ghana',monthIndex=10,selectedDay=12,companyName='Earth on Fire Demo Ltd.',supplierCount=3;
+const navConfig={
+ individual:[['individualHome','⌖','My safety map'],['challenge','◉','NASA challenge']],
+ company:[['companyHome','▦','Company overview'],['challenge','◉','NASA challenge'],['suppliers','▤','Suppliers & sourcing'],['billing','◇','Plans & payments'],['profile','♙','Company profile']]
+};
+function showLogin(){document.getElementById('loginPanel').classList.remove('hidden');document.getElementById('registerPanel').classList.add('hidden');document.getElementById('pendingPanel').classList.add('hidden')}
+function showRegister(){document.getElementById('loginPanel').classList.add('hidden');document.getElementById('registerPanel').classList.remove('hidden');document.getElementById('pendingPanel').classList.add('hidden')}
+function setAccountType(t){accountType=t;document.getElementById('tabIndividual').classList.toggle('active',t==='individual');document.getElementById('tabCompany').classList.toggle('active',t==='company');document.getElementById('individualForm').classList.toggle('hidden',t!=='individual');document.getElementById('companyForm').classList.toggle('hidden',t!=='company')}
+function createIndividual(){const name=document.getElementById('indName').value.trim();if(!name){toast('Enter your name to continue');return}currentType='individual';document.getElementById('sideName').textContent=name;enterApp('individual')}
+function submitCompany(){
+ const required=['coName','coContact','coEmail','coPhone','coGov','coAreas'];
+ if(required.some(id=>!document.getElementById(id).value.trim())){toast('Complete the required company details');return}
+ if(!document.getElementById('coReg').files.length||!document.getElementById('coTax').files.length){toast('Attach the commercial register and tax card');return}
+ const cats=[...document.querySelectorAll('input[name="cat"]:checked')].map(x=>x.value);if(!cats.length){toast('Choose at least one business category');return}
+ if(cats.includes('Other')&&!document.getElementById('coOther').value.trim()){toast('Describe the Other business category');return}
+ companyName=document.getElementById('coName').value.trim();document.getElementById('pendingPanel').classList.remove('hidden');document.getElementById('registerPanel').classList.add('hidden')
+}
+function demoLogin(type){currentType=type;document.getElementById('sideName').textContent=type==='company'?'Demo Egyptian Company':'Demo Individual';enterApp(type)}
+function enterApp(type){
+ currentType=type;document.getElementById('auth').classList.add('hidden');document.getElementById('app').classList.remove('hidden');
+ document.getElementById('sideType').textContent=type==='company'?'Egyptian company · demo verified':'Individual · free access';
+ document.getElementById('accountChip').textContent=type==='company'?'COMPANY · EGYPT':'INDIVIDUAL · FREE';
+ document.getElementById('avatar').textContent=type==='company'?'CO':'U';
+ buildNav();navigate(type==='company'?'companyHome':'individualHome');drawMap('userMap');drawMap('companyMap');drawMap('challengeMap');renderObservations();renderCalendar();updateArea('Ghana')
+}
+function logout(){document.getElementById('app').classList.add('hidden');document.getElementById('auth').classList.remove('hidden');showLogin()}
+function buildNav(){const nav=document.getElementById('navigation');nav.innerHTML='';navConfig[currentType].forEach(([id,ic,label])=>{const b=document.createElement('button');b.dataset.page=id;b.innerHTML='<span class="ic">'+ic+'</span>'+label;b.onclick=()=>navigate(id);nav.appendChild(b)})}
+const pageNames={individualHome:'My safety map',companyHome:'Company overview',challenge:'NASA challenge',suppliers:'Suppliers & sourcing',billing:'Plans & payments',profile:'Company profile'};
+function navigate(id){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('#navigation button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));document.getElementById('crumb').textContent=pageNames[id]||id;window.scrollTo({top:0,behavior:'smooth'})}
+function drawMap(id){
+ const el=document.getElementById(id);if(!el)return;
+ el.innerHTML=`<div class="map-controls"><select aria-label="Select monitored location" onchange="updateArea(this.value)"><option>Ghana</option><option>Côte d’Ivoire</option><option>Cameroon</option></select><button onclick="toast('Map location selector is a demo control')">⌖ Select location</button></div>
+ <svg viewBox="0 0 700 350" role="img" aria-label="Stylized Africa map with illustrative risk zones">
+ <path class="water" d="M0 0H700V350H0Z"/>
+ <g transform="translate(105,8)">
+ <path class="land" d="M235 24L285 30 323 48 348 78 390 88 407 119 391 151 370 174 359 208 338 240 315 286 288 320 265 288 247 252 229 224 211 191 190 169 175 136 163 106 175 75 194 53Z"/>
+ <path d="M192 75L236 61 273 80 267 111 232 130 194 118Z" fill="#c4d1a4" stroke="#7b9b73"/>
+ <path d="M236 130L268 119 286 145 270 165 240 160Z" fill="#e7c98b" stroke="#a68a53"/>
+ <path d="M295 158L340 145 353 185 333 222 303 209Z" fill="#b8c99c" stroke="#81966d"/>
+ <path d="M269 165L303 164 303 209 282 219 263 193Z" fill="#b7c9a3" stroke="#81966d"/>
+ <path d="M230 185L266 198 290 235 274 263 247 231Z" fill="#9fbc98" stroke="#81966d" opacity=".8"/>
+ <circle cx="244" cy="144" r="27" fill="#c95f45" opacity=".18"/><circle cx="244" cy="144" r="13" fill="#c95f45" opacity=".27"/>
+ <circle class="hotspot" cx="244" cy="144" r="7" fill="#c95f45" onclick="selectMapPoint('Ghana','High','VIIRS','22.1')"/>
+ <circle class="hotspot" cx="263" cy="151" r="6" fill="#e6a45e" onclick="selectMapPoint('Côte d’Ivoire','Moderate','MODIS','11.2')"/>
+ <circle class="hotspot" cx="321" cy="184" r="8" fill="#c95f45" onclick="selectMapPoint('Cameroon','High','VIIRS','14.7')"/>
+ <circle class="hotspot" cx="334" cy="197" r="5" fill="#e6a45e" onclick="selectMapPoint('Cameroon','Moderate','MODIS','8.6')"/>
+ <circle class="hotspot" cx="215" cy="103" r="5" fill="#75a77b" onclick="selectMapPoint('Ghana','Low','MODIS','4.2')"/>
+ <text x="220" y="133" fill="#314b38" font-size="10" font-weight="700">GH</text><text x="296" y="146" fill="#314b38" font-size="10" font-weight="700">CM</text>
+ </g><text x="28" y="325" fill="#718176" font-size="10">Stylized Africa view · not for navigation or precise boundaries</text></svg>
+ <div class="map-stamp">Heat colors are illustrative until live layers are connected</div>`;
+}
+function selectMapPoint(country,level,sensor,frp){updateArea(country);const msg=`${country} · ${level} sample activity · ${sensor} · FRP ${frp} MW`;const marker=document.getElementById('markerInfo');if(marker)marker.textContent=msg;toast(msg)}
+function updateArea(country){
+ currentArea=country;const d=areas[country]||areas.Ghana;
+ ['userLocationLabel'].forEach(id=>{const x=document.getElementById(id);if(x)x.textContent='Selected demo area · '+country});
+ const vals={uTemp:d.temp+'°C',uHum:d.hum+'%',uRain:d.rain+' mm',uWind:d.wind+' km/h'};
+ Object.entries(vals).forEach(([id,v])=>{const x=document.getElementById(id);if(x)x.textContent=v});
+ const warn=document.getElementById('userWarning');if(warn)warn.textContent=d.risk>=65?'A sample elevated-risk zone is displayed for '+country+'. This is not a live emergency alert.':'A sample moderate-risk zone is displayed for '+country+'. This is not a live emergency alert.';
+ const name=document.getElementById('companyAreaName');if(name)name.textContent=d.desc;
+ const score=document.getElementById('companyRisk');if(score)score.textContent=d.risk+' / 100';
+ const bar=document.getElementById('companyRiskBar');if(bar)bar.style.width=d.risk+'%';
+ const badge=document.getElementById('companyRiskBadge');if(badge){badge.textContent=d.risk>=65?'Elevated':'Moderate';badge.className='badge '+(d.risk>=65?'red':'yellow')}
+ const ids={cThermal:d.thermal,cFrp:d.frp,cDry:d.dry,cWind:d.windLabel};Object.entries(ids).forEach(([id,v])=>{const x=document.getElementById(id);if(x)x.textContent=v});
+}
+function changeArea(value){if(value==='All Africa'){document.getElementById('markerInfo').textContent='Showing all sample African observations.';return}updateArea(value)}
+function renderObservations(){
+ const filter=document.getElementById('sensorFilter')?.value||'all';
+ const rows=obs.filter(o=>filter==='all'||o.sensor===filter).map(o=>`<tr><td><span class="badge ${o.sensor==='MODIS'?'orange':'blue'}">${o.sensor}</span></td><td>${o.time}</td><td>${o.lat}</td><td>${o.lon}</td><td>${o.conf}</td><td>${o.frp}</td><td><span class="badge yellow">SAMPLE</span></td></tr>`).join('');
+ const table=document.getElementById('obsTable');if(table)table.innerHTML=rows;
+ const user=document.getElementById('userObservations');if(user)user.innerHTML=obs.slice(0,4).map(o=>`<tr><td>${o.time}</td><td>${o.sensor}</td><td>${o.country}</td><td>${o.conf}</td><td>Sample</td></tr>`).join('');
+}
+function renderCalendar(){
+ const el=document.getElementById('calendar');if(!el)return;const date=new Date(2026,monthIndex,1),days=new Date(2026,monthIndex+1,0).getDate(),start=date.getDay();
+ const names=['SUN','MON','TUE','WED','THU','FRI','SAT'];el.innerHTML=names.map(n=>`<div class="dayname">${n}</div>`).join('');
+ for(let i=0;i<start;i++)el.innerHTML+='<div class="day blank"></div>';
+ for(let d=1;d<=days;d++){const level=((d*7+monthIndex*3)%13);const cls=level<3?'l1':level<6?'l2':level<9?'l3':level<11?'l4':'l5';el.innerHTML+=`<button class="day ${cls} ${d===selectedDay?'selected':''}" onclick="selectDay(${d},'${cls}')">${d}<em>${['Low','Low','Moderate','High','Elevated'][['l1','l2','l3','l4','l5'].indexOf(cls)]}</em></button>`}
+ document.getElementById('calendarInfo').textContent='Select a day to inspect its illustrative activity level. Calendar values are synthetic demo data.';
+}
+function selectDay(day,cls){selectedDay=day;renderCalendar();const level={l1:'Low',l2:'Low',l3:'Moderate',l4:'High',l5:'Elevated'}[cls];document.getElementById('calendarInfo').textContent=`November ${day}, 2026 · ${level} illustrative activity · Not a live NASA observation.`}
+function changeMonth(delta){monthIndex=Math.max(0,Math.min(11,monthIndex+delta));selectedDay=1;renderCalendar();toast('Calendar month changed (demo data)')}
+function openSupplierModal(){document.getElementById('supplierModal').classList.add('show')}
+function closeSupplierModal(){document.getElementById('supplierModal').classList.remove('show')}
+function addSupplier(){const name=document.getElementById('sName').value.trim();if(!name){toast('Enter a supplier name');return}const country=document.getElementById('sCountry').value,material=document.getElementById('sMaterial').value;const tr=document.createElement('tr');tr.innerHTML=`<td>${escapeHtml(name)}</td><td>${escapeHtml(country)}</td><td>${escapeHtml(material)}</td><td><span class="badge yellow">Pending review</span></td><td>Unverified</td>`;document.getElementById('supplierRows').appendChild(tr);supplierCount++;document.getElementById('cSuppliers').textContent=supplierCount;closeSupplierModal();document.getElementById('sName').value='';toast('Supplier added to demo workspace')}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function filterSuppliers(){const q=document.getElementById('supplierSearch').value.toLowerCase();document.querySelectorAll('#supplierRows tr').forEach(r=>r.style.display=r.innerText.toLowerCase().includes(q)?'':'none')}
+function requestPlan(name){toast(name+' plan request recorded in this demo. No payment was taken.')}
+function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.style.display='block';clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>el.style.display='none',2800)}
+document.getElementById('supplierModal').addEventListener('click',e=>{if(e.target.id==='supplierModal')closeSupplierModal()});
+</script>
+</body></html>

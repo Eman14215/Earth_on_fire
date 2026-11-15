@@ -1,0 +1,11 @@
+# Do not commit users' personal data, session tokens, or locally built >100MB database.
+data/users.sqlite
+data/users.sqlite-shm
+data/users.sqlite-wal
+data/fires.sqlite
+data/*.sqlite-journal
+data/.eof_sync_*/
+*.pyc
+__pycache__/
+.pytest_cache/
+.env
